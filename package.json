@@ -1,0 +1,32 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "time tracker ",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "iuliia",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suncitygirl/pomodoro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/suncitygirl/pomodoro/issues"
+  },
+  "homepage": "https://github.com/suncitygirl/pomodoro#readme",
+  "dependencies": {
+    "gulp": "^3.9.1"
+  },
+  "devDependencies": {
+    "del": "^2.2.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-cache": "^0.4.5",
+    "gulp-if": "^2.0.1",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "run-sequence": "^1.2.2"
+  }
+}
