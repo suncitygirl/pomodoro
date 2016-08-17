@@ -48,7 +48,7 @@ function Clock(fullTime) {
     }
 }
 
-//Event handler. An entry poind when btn click event had been occured
+//Event handler entry point after btn click event has been occured
 function entryPoint() {
     var pomodoro = new Clock(getTime(userSettings));
     pomodoro.startSession();
