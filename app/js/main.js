@@ -19,6 +19,7 @@ function getTime(inputList) {
             }
         };
     });
+    alert(timeList);
     return timeList;
 }
 
@@ -28,31 +29,40 @@ function TimeFormatException(message) {
 
 //Timer constructor
 function Clock(fullTime) {
-    var breakLength = fullTime[0];
-    var sessionLength = fullTime[1];
+    var breakLength = fullTime[0] * 60;
+    var sessionLength = fullTime[1] * 60;
     var countdown;
+    var count;
     var time;
-    var count = 0;
     var pause = false;
     var timer = function() {
       if (!pause) {
         countdown = setInterval(function() {
             time -= 1;
             count++;
+            if (time == 0) {
+              if(count == sessionLength) {
+                count = 0;
+                time = breakLength;
+              }
+              else {
+                count = 0;
+                time = sessionLength;
+              }
+            }
             console.log(time);
         }, 1000);
       }
       else {
-        // time = time - count - 2;
         clearInterval(countdown);
       }
     }
     this.start = function() {
-        if (!time) time = sessionLength * 60;
+        if (!time) time = sessionLength;
         timer();
     }
     this.startBreak = function() {
-        time = breakLength * 60;
+        time = breakLength;
         timer();
     }
     this.isPause = function() {
@@ -66,7 +76,6 @@ function Clock(fullTime) {
 }
 
 var pomodoro = new Clock(getTime(userSettings));
-
 var btn = document.getElementsByClassName("start-btn")[0];
 btn.addEventListener('click', entryPoint);
 
