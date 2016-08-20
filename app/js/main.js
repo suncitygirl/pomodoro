@@ -33,55 +33,58 @@ function Clock() {
     var time;
     var pause = false;
     var timer = function() {
-      if (!pause) {
-        countdown = setInterval(function(self) {
-            if (time == 0) {
-              if(count == this.sessionLength) {
-                count = 0;
-                time = this.breakLength;
-              }
-              else {
-                count = 0;
-                time = this.sessionLength;
-              }
-            }
-            else {
-              time -= 1;
-              count++;
-            }
-            console.log(time);
-        }.bind(this), 100);
-      }
-      else {
-        clearInterval(countdown);
-      }
+        if (!pause) {
+            countdown = setInterval(function(self) {
+                if (time == 0) {
+                    if (count == this.sessionLength) {
+                        count = 0;
+                        time = this.breakLength;
+                    } else {
+                        count = 0;
+                        time = this.sessionLength;
+                    }
+                } else {
+                    time -= 1;
+                    count++;
+                }
+                minutes.innerHTML = Math.floor(time / 60);
+                seconds.textContent = time % 60;
+                console.log(time);
+            }.bind(this), 100);
+        } else {
+            clearInterval(countdown);
+        }
     }.bind(this);
-    this.start = function() {
+    this.run = function() {
         if (!time) time = this.sessionLength;
         timer();
     }
     this.isPause = function() {
-      return pause;
+        return pause;
     }
     this.toggle = function() {
-      if (pause) { pause = false }
-      else { pause = true;}
+        if (pause) {
+            pause = false
+        } else {
+            pause = true;
+        }
         console.log('pause changes to ', pause);
     }
 }
 
 var btn = document.getElementsByClassName("start-btn")[0];
-btn.addEventListener('click', entryPoint);
+var minutes = document.getElementsByClassName('timer__minutes')[0];
+var seconds = document.getElementsByClassName('timer__seconds')[0];
+btn.addEventListener('click', startTimer);
 
 var pomodoro = new Clock();
 
 //Event handler entry point after btn click event has been occured
-function entryPoint() {
-  var userSettings = document.getElementsByTagName('input');
-  pomodoro.sessionLength = getTime(userSettings)[1] * 60;
-  pomodoro.breakLength = getTime(userSettings)[0] * 60;
-  pomodoro.start();
-
+function startTimer() {
+    var userSettings = document.getElementsByTagName('input');
+    pomodoro.sessionLength = getTime(userSettings)[1] * 60;
+    pomodoro.breakLength = getTime(userSettings)[0] * 60;
+    pomodoro.run();
     if (!pomodoro.isPause()) {
         pomodoro.toggle();
     } else {
