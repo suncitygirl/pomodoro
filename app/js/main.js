@@ -50,7 +50,7 @@ function Clock() {
                 minutes.innerHTML = Math.floor(time / 60);
                 seconds.textContent = time % 60;
                 console.log(time);
-            }.bind(this), 100);
+            }.bind(this), 1000);
         } else {
             clearInterval(countdown);
         }
