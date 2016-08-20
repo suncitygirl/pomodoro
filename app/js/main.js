@@ -1,7 +1,5 @@
 'use strict';
 
-var userSettings = document.getElementsByTagName('input');
-
 //Check format and return an array [breakLength, sessionLength]
 function getTime(inputList) {
     var timeList = [].map.call(inputList, function(item) {
@@ -19,7 +17,6 @@ function getTime(inputList) {
             }
         };
     });
-    alert(timeList);
     return timeList;
 }
 
@@ -28,41 +25,39 @@ function TimeFormatException(message) {
 }
 
 //Timer constructor
-function Clock(fullTime) {
-    var breakLength = fullTime[0] * 60;
-    var sessionLength = fullTime[1] * 60;
+function Clock() {
+    this.breakLength = 5;
+    this.sessionLength = 25;
     var countdown;
-    var count;
+    var count = 0;
     var time;
     var pause = false;
     var timer = function() {
       if (!pause) {
-        countdown = setInterval(function() {
-            time -= 1;
-            count++;
+        countdown = setInterval(function(self) {
             if (time == 0) {
-              if(count == sessionLength) {
+              if(count == this.sessionLength) {
                 count = 0;
-                time = breakLength;
+                time = this.breakLength;
               }
               else {
                 count = 0;
-                time = sessionLength;
+                time = this.sessionLength;
               }
             }
+            else {
+              time -= 1;
+              count++;
+            }
             console.log(time);
-        }, 1000);
+        }.bind(this), 100);
       }
       else {
         clearInterval(countdown);
       }
-    }
+    }.bind(this);
     this.start = function() {
-        if (!time) time = sessionLength;
-        timer();
-    }
-    this.startBreak = function() {
-        time = breakLength;
+        if (!time) time = this.sessionLength;
         timer();
     }
     this.isPause = function() {
@@ -75,13 +70,16 @@ function Clock(fullTime) {
     }
 }
 
-var pomodoro = new Clock(getTime(userSettings));
 var btn = document.getElementsByClassName("start-btn")[0];
 btn.addEventListener('click', entryPoint);
 
+var pomodoro = new Clock();
+
 //Event handler entry point after btn click event has been occured
 function entryPoint() {
-  //preventdeafult
+  var userSettings = document.getElementsByTagName('input');
+  pomodoro.sessionLength = getTime(userSettings)[1] * 60;
+  pomodoro.breakLength = getTime(userSettings)[0] * 60;
   pomodoro.start();
 
     if (!pomodoro.isPause()) {
